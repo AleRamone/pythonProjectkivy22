@@ -1,0 +1,54 @@
+<Muestra_Imagenes>:
+
+    orientation: "vertical"
+    canvas:
+        Color:
+            rgb: 1,0,0
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<Puredata_a_Bd>:
+
+    orientation: "vertical"
+    id: conexion
+    canvas:
+        Color:
+            rgb: 0,0,1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    ToggleButton:
+        text: "Conectar"
+        on_release: root.escucha()
+
+
+<Imagenes_a_Bd>
+    orientation: "vertical"
+    id: imagen_db
+    canvas:
+        Color:
+            rgb: 0,0,1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    ToggleButton:
+        text: "Enviar imagen"
+            on_release: root.envia_imagen()
+
+<Audio_a_Bd>
+    orientation: "vertical"
+    id: audio_db
+    canvas:
+        Color:
+            rgb: 0,0,1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    ToggleButton:
+        text: "Enviar audio"
+            on_release: root.envia_audio()
+

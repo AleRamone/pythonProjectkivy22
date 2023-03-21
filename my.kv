@@ -1,0 +1,341 @@
+#:import get_color_from_hex kivy.utils.get_color_from_hex
+
+WindowManager:
+
+    md_bg_color: get_color_from_hex("#F29C99")
+
+    MainWindow:
+    AudioScreen:
+    ImagenScreen:
+    SecondWindow:
+
+
+<Button>:
+    font_size: 20
+    color: 0.1,0.5,0.6
+    size_hint: 1, 0.2
+
+
+<MainWindow>:
+
+    orientation : "horizontal"
+    name: "main"
+
+    username: username
+    mail: mail
+    password: password
+
+    BoxLayout:
+        orientation : "vertical"
+        spacing : 18
+        padding : 40
+        cols:1
+
+        BoxLayout:
+            orientation : "vertical"
+            cols:2
+
+            Label:
+                id:l1
+                text: "nombre: "
+
+            TextInput:
+                id: username
+                multiline:False
+
+            Label:
+                id:l2
+                text: "e-m@il: "
+
+            TextInput:
+                id: mail
+                multiline:False
+
+            Label:
+                id:l3
+                text: "contraseña: "
+
+            TextInput:
+                id: password
+                multiline:False
+                password: True
+
+        Button:
+            text:"Ir"
+            color: 0, 0, 0.1
+            size: 30, 20
+            pos:300, 300
+            on_release:
+                app.root.current = "second"
+                root.manager.transition.direction = "left"
+                root.btn()
+
+<SecondWindow>:
+
+    name : "second"
+    canvas.before:
+        Color:
+            rgba:(55/255,55/255,55/255,0.85)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation : "vertical"
+        padding: 50
+        color: 0.6,0.2,0.8
+        Label:
+            pos: (0.5, 1)
+            text: "Elegir una opción"
+            font_size: 20
+            color: 0.6,0.5,0.2
+            bold: True
+
+        Button:
+            text: "Crear sonido"
+            font_size: 25
+            color:0.55, 0.45, 0.8
+            pos: 100, 100
+            size: 100, 50
+
+            on_release: root.btn1()
+
+        Button:
+            text: "Mostrar datos"
+            font_size: 25
+            color:0.55, 0.45, 0.8
+            pos: 350, 200
+            size: 100, 50
+            on_release: root.btnfind()
+
+        Button:
+            text: "Datagrama"
+            font_size: 25
+            color:0.55, 0.45, 0.8
+            pos: 350, 100
+            size: 100, 50
+            on_release: root.plot_list()
+
+        Button:
+            text: "Remover datos"
+            font_size: 24
+            color:0.55, 0.45, 0.8
+            pos: 350, 100
+            size: 100, 50
+            on_release: root.btndelete()
+
+        Button:
+            markup: True
+            text: "[b]Audio[/b]"
+            font_size: 25
+            color:0.55, 0.45, 0.8
+            pos: 100, 100
+            size: 100, 50
+            on_release:
+                app.root.current = "audioscreen"
+
+        Button:
+            markup: True
+            text: "[b]Imagen[/b]"
+            font_size: 25
+            color:0.55, 0.45, 0.8
+            #pos: 100, 100
+            size: 100, 50
+            on_release:
+                app.root.current = "sendscreen"
+
+        RoundedButton:
+            id: bttn
+            markup: True
+            text: "[u]Salir[/u]"
+            color: 0.55, 0.45, 0.8
+            font_size: 24
+            size: 100, 50
+            pos_hint: {'center_x': 0.5}
+            size_hint:(.3,.3)
+            on_release:
+                app.root.current = "main"
+                root.manager.transition.direction = "right"
+
+<RoundedButton@Button>
+
+    background_color:(0,0,0,0)
+    background_normal: ''
+    canvas.before:
+        Color:
+            rgba:(80/255,80/255,80/255,0.85)
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+
+
+<Pop>:
+    Touch:
+
+
+<AudioScreen>:
+    id: audio_sc
+    name: "audioscreen"
+    canvas.before:
+        Color:
+            rgba:(65/255,65/255,72/255,0.85)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        orientation : "vertical"
+        padding: 60
+        Label:
+            markup: True
+            pos: (0.5, 1)
+            text: "[b]Audio[/b]"
+            font_size: 30
+            color: 0.6,0.5,0.2
+
+        Button:
+            #markup: True
+            text: "Descargar Audio"
+            color: 0.2, 0.82, 2, 0.5
+            font_size: 23
+            pos_hint: {'center_x': 0.5,'center_y': 0.5}
+            on_press:
+                root.recv_audio()
+
+        Button:
+            text: "Reproducir"
+            color: 0.2, 0.82, 2, 0.5
+            font_size: 23
+            pos_hint: {'center_x': 0.5,'center_y': 0.5}
+            on_press:
+                root.open_audio()
+
+        Button:
+            text: "Forma de onda"
+            color: 0.2, 0.82, 2, 0.5
+            font_size: 23
+            pos_hint: {'center_x': 0.5,'center_y': 0.5}
+            on_press:
+                root.plot_audio()
+
+        Button:
+            text: "Espectrograma"
+            color: 0.2, 0.82, 2, 0.5
+            font_size: 23
+            pos_hint: {'center_x': 0.5,'center_y': 0.5}
+            on_press:
+                root.plot_spectrum()
+
+        Button:
+            text: "Grabar"
+            color: 0.2, 0.82, 2, 0.5
+            font_size: 23
+            pos_hint: {'center_x': 0.5,'center_y': 0.5}
+            on_press:
+                root.record_audio()
+
+        Button:
+            text: "Subir Grabación"
+            color: 0.2, 0.82, 2, 0.5
+            font_size: 23
+            pos_hint: {'center_x': 0.5,'center_y': 0.5}
+            on_press:
+                root.upload_audio()
+
+        RoundedButton:
+            id: atras_a
+            text: "Atras"
+            font_size: 23
+            color:0.4, 0, 0, 0.5
+            pos: 100, 100
+            size_hint: 1, 0.25
+            on_release:
+                app.root.current = "second"
+                root.manager.transition.direction = "up"
+
+<ImagenScreen>:
+    id: send_sc
+    name: "sendscreen"
+    canvas.before:
+        Color:
+            rgba:(75/255,81/255,75/255,0.85)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        orientation : "vertical"
+        padding: 60
+        Label:
+            markup: True
+            pos: (0.5, 1)
+            text: "[b]Imágenes[/b]"
+            pos: 100, 100
+            font_size: 30
+            color: 0.6,0.5,0.2
+        Button:
+            text: "Enviar imagen"
+            font_size: 24
+            color:0.2, 2, 0.7, 0.5
+            pos: 100, 100
+            size_hint: 1, 0.25
+            on_release:
+                root.send_img_pd()
+
+        #Button:
+        #    text: "Mostrar imagen"
+        #    font_size: 25
+        #    color:0.2, 2, 0.7, 0.5
+        #    pos: 100, 100
+        #    size_hint: 1, 0.25
+        #    on_release:
+        #        root.btn3()
+
+        #Image:
+            #id: my_im
+            #source: ""
+
+        #FileChooserIconView:
+         #   id: filechooser
+          #  on_selection: send_sc.selected(filechooser.selection)
+
+        #Button:
+        #   text: "Abrir"
+        #    font_size: 25
+        #    color:0, 2, 0, 0.5
+        #    pos: 100, 100
+        #    size_hint: 1, 0.25
+        #    on_press: root.abrir()
+        #    on_release: root.abrir()
+
+        Button:
+            text: "Subir imagen a bd"
+            font_size: 22
+            color:0.2, 2, 0.7, 0.5
+            pos: 100, 100
+            size_hint: 1, 0.25
+            on_press: root.send_image()
+
+        ToggleButton:
+            text: "Recibir imagen"
+            font_size: 24
+            color:0.2, 2, 0.7, 0.5
+            pos: 100, 100
+            size_hint: 1, 0.25
+            on_release: root.recv_image()
+
+        RoundedButton:
+            id: atras
+            text: "Atras"
+            font_size: 24
+            color:0.4, 0, 0, 0.5
+            pos: 100, 100
+            size_hint: 1, 0.25
+            pos_hint: {'center_y': 5}
+            on_release:
+                app.root.current = "second"
+                root.manager.transition.direction = "left"
+
+
+
+
+
+
